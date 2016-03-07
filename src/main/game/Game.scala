@@ -16,15 +16,13 @@ class Game(var players: List[Player], var envelope: Envelope) {
   
   val numPlayers = 4
   
-  private lazy val emptyPlayers = List.tabulate(numPlayers)(id => new Player(id = id, cards = List()))
-  
   lazy val cards = Card.classic
   lazy val suspects = cards.filter { card => card.isInstanceOf[SuspectCard] }
   lazy val weapons  = cards.filter { card => card.isInstanceOf[WeaponCard] }
   lazy val rooms    = cards.filter { card => card.isInstanceOf[RoomCard] }
   
   def initialize = {
-    players = emptyPlayers
+    players = List.tabulate(numPlayers)(id => new Player(id = id, cards = List()))
     envelope = Envelope.Empty
   }
   
@@ -46,11 +44,11 @@ class Game(var players: List[Player], var envelope: Envelope) {
     val roomSolution    :: remainingRooms    = util.Random.shuffle(rooms)
     val remainingCards = util.Random.shuffle(remainingSuspects ++ remainingWeapons ++ remainingRooms)
     
-    envelope = dealSolution(Envelope.Empty,
+    envelope = dealSolution(envelope,
                             suspectSolution.asInstanceOf[SuspectCard],
                             weaponSolution.asInstanceOf[WeaponCard],
                             roomSolution.asInstanceOf[RoomCard])
                  
-    players = dealCardsToPlayers(emptyPlayers, remainingCards)
+    players = dealCardsToPlayers(players, remainingCards)
   }
 }
