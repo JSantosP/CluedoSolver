@@ -45,4 +45,9 @@ class GameWithCards extends FlatSpec with BeforeAndAfter {
       }
     })
   }
+  
+  it should "have dealt all cards between envelope and players" in {
+    val cardsInPlayers: Int = game.players.flatMap { player => Some(player.cards.size) }.sum
+    assert(game.cards.size == cardsInPlayers + game.envelope.cards.size)
+  }
 }
