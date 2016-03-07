@@ -7,6 +7,8 @@ import main.cards.WeaponCard
 import main.cards.RoomCard
 
 object Game {
+  override def toString = s"Game[players=$players]"
+  
   val numPlayers = 4
   
   private lazy val emptyPlayers = List.tabulate(numPlayers)(id => new Player(id = id, cards = List()))
@@ -16,7 +18,9 @@ object Game {
   lazy val weapons  = cards.filter { card => card.isInstanceOf[WeaponCard] }
   lazy val rooms    = cards.filter { card => card.isInstanceOf[RoomCard] }
   
-  var players: List[Player] = emptyPlayers
+  var players: List[Player] = List()
   
-  override def toString = s"Game[players=$players]"
+  def initialize = {
+    players = emptyPlayers
+  }
 }

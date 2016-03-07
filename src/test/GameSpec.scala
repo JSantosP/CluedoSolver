@@ -3,11 +3,16 @@ package test
 import org.scalatest.Matchers
 import org.scalatest.FlatSpec
 import main.game.Game
+import org.scalatest.BeforeAndAfter
 
-class GameSpec extends FlatSpec {
-  behavior of "A Game"
+class GameSpec extends FlatSpec with BeforeAndAfter {
+  behavior of "An initialized Game"
   
-  it should "have as many players as defined" in {
+  before {
+    Game.initialize
+  }
+  
+  it should "have as many players as defined when initialized" in {
     assert(Game.players.size == Game.numPlayers)
   }
   
