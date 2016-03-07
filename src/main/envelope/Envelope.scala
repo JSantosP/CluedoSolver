@@ -10,7 +10,7 @@ object Envelope {
 }
 
 class Envelope(val cards: List[Card]) {
-  override def toString = "Envelope[cards=$cards]"
+  override def toString = s"Envelope[cards=$cards]"
   
   def dealSolution(suspect: SuspectCard, weapon: WeaponCard, room: RoomCard) =
     new Envelope(List(suspect, weapon, room))
