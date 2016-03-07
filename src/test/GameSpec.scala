@@ -4,8 +4,14 @@ import org.scalatest.Matchers
 import org.scalatest.FlatSpec
 import main.game.Game
 
-class GameSpec extends FlatSpec with Matchers {
-  "A Game" should "have as many players as defined" in {
+class GameSpec extends FlatSpec {
+  behavior of "A new Game"
+  
+  it should "have as many players as defined" in {
     assert(Game.players.size == Game.NUM_PLAYERS)
+  }
+  
+  it should "have all players with no cards" in {
+    assert(Game.players.forall { player => player.cards.size == 0 })
   }
 }
