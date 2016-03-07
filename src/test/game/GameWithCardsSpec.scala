@@ -28,4 +28,21 @@ class GameWithCards extends FlatSpec with BeforeAndAfter {
     assert(game.envelope.cards.filter { card => card.isInstanceOf[WeaponCard]  }.size == 1)
     assert(game.envelope.cards.filter { card => card.isInstanceOf[RoomCard]    }.size == 1)
   }
+  
+  it should "have an envelope with cards that players don't have" in {
+    assert(game.envelope.cards.forall { card =>
+      game.players.forall { player =>
+        !player.cards.contains(card)
+      }
+    })
+  }
+  
+  it should "have all players with different cards" in {
+    assert(game.players.forall { player =>
+      val otherPlayers = game.players.filterNot { p => p == player }
+      otherPlayers.forall { otherPlayer =>
+        player.cards.forall { card => !otherPlayer.cards.contains(card) }
+      }
+    })
+  }
 }
