@@ -1,13 +1,18 @@
 package main.game
 
-import main.players.Player
 import main.cards.Card
+import main.cards.RoomCard
 import main.cards.SuspectCard
 import main.cards.WeaponCard
-import main.cards.RoomCard
+import main.envelope.Envelope
+import main.players.Player
 
 object Game {
-  override def toString = s"Game[players=$players]"
+  def Empty = new Game(players = List(), envelope = Envelope.Empty)
+}
+
+class Game(var players: List[Player], var envelope: Envelope) {
+  override def toString = s"Game[players=$players, envelope=$envelope]"
   
   val numPlayers = 4
   
@@ -18,9 +23,34 @@ object Game {
   lazy val weapons  = cards.filter { card => card.isInstanceOf[WeaponCard] }
   lazy val rooms    = cards.filter { card => card.isInstanceOf[RoomCard] }
   
-  var players: List[Player] = List()
-  
   def initialize = {
     players = emptyPlayers
+    envelope = Envelope.Empty
+  }
+  
+  private def dealSolution(envelope: Envelope, suspect: SuspectCard, weapon: WeaponCard, room: RoomCard) = {
+    envelope.dealSolution(suspect, weapon, room)
+  }
+  
+  private def dealCardsToPlayers(players: List[Player], cards: List[Card], index: Int = 0): List[Player] = cards match {
+    case Nil => players
+    case card :: remainingCards => {
+      val updatedPlayers = players.updated(index, players(index).dealCard(card))
+      dealCardsToPlayers(updatedPlayers, remainingCards, (index + 1) % players.size)
+    }
+  }
+  
+  def dealCards = {
+    val suspectSolution :: remainingSuspects = util.Random.shuffle(suspects)
+    val weaponSolution  :: remainingWeapons  = util.Random.shuffle(weapons)
+    val roomSolution    :: remainingRooms    = util.Random.shuffle(rooms)
+    val remainingCards = util.Random.shuffle(remainingSuspects ++ remainingWeapons ++ remainingRooms)
+    
+    envelope = dealSolution(Envelope.Empty,
+                            suspectSolution.asInstanceOf[SuspectCard],
+                            weaponSolution.asInstanceOf[WeaponCard],
+                            roomSolution.asInstanceOf[RoomCard])
+                 
+    players = dealCardsToPlayers(emptyPlayers, remainingCards)
   }
 }
