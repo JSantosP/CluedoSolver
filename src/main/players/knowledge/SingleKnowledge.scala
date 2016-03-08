@@ -14,4 +14,8 @@ class SingleKnowledge(val numCards: Int, val cards: List[Card], val possibleCard
     
     new SingleKnowledge(numCards = numCards, cards = cards, possibleCards = p)
   }
+  
+  def has(card: Card) = new SingleKnowledge(numCards = numCards + 1, cards = card :: cards, possibleCards.filterNot { c => c == card })
+  
+  def doesntHave(card: Card) = new SingleKnowledge(numCards = numCards, cards = cards, possibleCards.filterNot { c => c == card })
 }

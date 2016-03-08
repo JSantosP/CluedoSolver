@@ -23,5 +23,5 @@ class Player(val id: Int, val cards: List[Card], val knowledge: Knowledge) {
     new Player(id = id, cards = cards, knowledge = knowledge.initialize(numPlayersWithoutSelf + 1, possibleCards))
   
   def dealCard(card: Card) =
-    new Player(id = id, cards = card :: cards, knowledge)
+    new Player(id = id, cards = card :: cards, knowledge.playerHasCard(this, card))
 }
