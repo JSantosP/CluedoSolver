@@ -22,7 +22,7 @@ class Game(var players: List[Player], var envelope: Envelope) {
   lazy val rooms    = cards.filter { card => card.isInstanceOf[RoomCard] }
   
   def initialize = {
-    players = List.tabulate(numPlayers)(id => new Player(id = id, cards = List()))
+    players = List.tabulate(numPlayers)(id => Player.Empty.withID(id))
     envelope = Envelope.Empty
   }
   
