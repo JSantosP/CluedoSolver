@@ -1,4 +1,4 @@
-package test
+package test.player
 
 import org.scalatest.FlatSpec
 import main.cards.ReverendGreen

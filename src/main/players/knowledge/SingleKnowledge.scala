@@ -8,4 +8,10 @@ object SingleKnowledge {
 
 class SingleKnowledge(val numCards: Int, val cards: List[Card], val possibleCards: List[Card]) {
   override def toString = s"SinglePlayerKnowledge=[numCards=$numCards, cards=$cards, possibleCards=$possibleCards]"
+  
+  def couldHave(p: List[Card]) = {
+    require(p.forall { card => !cards.contains(card) }, "A possible card is already a known card!")
+    
+    new SingleKnowledge(numCards = numCards, cards = cards, possibleCards = p)
+  }
 }

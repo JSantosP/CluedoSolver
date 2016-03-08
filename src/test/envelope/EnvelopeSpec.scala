@@ -1,4 +1,4 @@
-package test
+package test.envelope
 
 import org.scalatest.FlatSpec
 import main.envelope.Envelope
