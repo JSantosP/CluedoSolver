@@ -23,4 +23,7 @@ class Knowledge(val players: List[SingleKnowledge], val envelope: SingleKnowledg
     
     new Knowledge(updatedPlayersKnowledge, envelope.doesntHave(card))
   }
+  
+  def withAllCardsDealtForPlayer(player: Player) =
+    new Knowledge(players.updated(player.id, players(player.id).withAllCardsKnown), envelope)
 }

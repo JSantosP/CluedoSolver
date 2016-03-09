@@ -24,4 +24,7 @@ class Player(val id: Int, val cards: List[Card], val knowledge: Knowledge) {
   
   def dealCard(card: Card) =
     new Player(id = id, cards = card :: cards, knowledge.playerHasCard(this, card))
+  
+  def withAllCardsDealt =
+    new Player(id = id, cards = cards, knowledge.withAllCardsDealtForPlayer(this))
 }

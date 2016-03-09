@@ -50,5 +50,6 @@ class Game(var players: List[Player], var envelope: Envelope) {
                             roomSolution.asInstanceOf[RoomCard])
                  
     players = dealCardsToPlayers(players, remainingCards)
+    players = players.map { player => player.withAllCardsDealt }
   }
 }
