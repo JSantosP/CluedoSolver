@@ -1,9 +1,10 @@
 package test.knowledge
 
-import org.scalatest.FlatSpec
-import main.players.knowledge.Knowledge
 import org.scalatest.BeforeAndAfter
+import org.scalatest.FlatSpec
+
 import main.game.Game
+import main.players.knowledge.Knowledge
 
 class KnowledgeSpec extends FlatSpec with BeforeAndAfter {
   behavior of "An initialized Knowledge"
