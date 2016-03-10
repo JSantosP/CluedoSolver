@@ -27,4 +27,9 @@ class Player(val id: Int, val cards: List[Card], val knowledge: Knowledge) {
   
   def withAllCardsDealt =
     new Player(id = id, cards = cards, knowledge.withAllCardsDealtForPlayer(this))
+  
+  def knowsItsCards = {
+    val ownKnowledge = knowledge.players(id)
+    ownKnowledge.numCards == cards.size && ownKnowledge.possibleCards.size == 0
+  }
 }

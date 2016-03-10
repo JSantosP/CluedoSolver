@@ -21,9 +21,9 @@ class Knowledge(val players: List[SingleKnowledge], val envelope: SingleKnowledg
       else players(player.id).doesntHave(card)
     }
     
-    new Knowledge(updatedPlayersKnowledge, envelope.doesntHave(card))
+    new Knowledge(players = updatedPlayersKnowledge, envelope = envelope.doesntHave(card))
   }
   
   def withAllCardsDealtForPlayer(player: Player) =
-    new Knowledge(players.updated(player.id, players(player.id).withAllCardsKnown), envelope)
+    new Knowledge(players = players.updated(player.id, players(player.id).withAllCardsKnown), envelope = envelope)
 }

@@ -5,11 +5,12 @@ import main.cards.ReverendGreen
 import main.players.Player
 import main.cards.BilliardRoom
 import main.cards.LeadPipe
+import main.game.Game
 
 class PlayerSpec extends FlatSpec {
   behavior of "A Player"
   
-  val player = Player.Empty
+  val player = Player.Empty.withID(0)
   
   it should "have an extra card when dealing a card" in {
     val card = ReverendGreen
@@ -35,5 +36,13 @@ class PlayerSpec extends FlatSpec {
     assert(playerWithCards.suspects.size == 1 && playerWithCards.suspects.contains(suspect))
     assert(playerWithCards.weapons.size == 1 && playerWithCards.weapons.contains(weapon))
     assert(playerWithCards.rooms.size == 1 && playerWithCards.rooms.contains(room))
+  }
+  
+  behavior of "A Player in a Game"
+  
+  val playerInGame = player.playsAgainst(Game.Empty.numPlayers, Game.Empty.cards)
+  
+  it should "know all its cards when all cards are dealt" in {
+    assert(playerInGame.withAllCardsDealt.knowsItsCards)
   }
 }

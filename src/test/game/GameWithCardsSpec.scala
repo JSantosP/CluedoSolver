@@ -50,4 +50,8 @@ class GameWithCards extends FlatSpec with BeforeAndAfter {
     val cardsInPlayers: Int = game.players.flatMap { player => Some(player.cards.size) }.sum
     assert(game.cards.size == cardsInPlayers + game.envelope.cards.size)
   }
+  
+  it should "have all players that know their own cards" in {
+    assert(game.players.forall { player => player.knowsItsCards })
+  }
 }
