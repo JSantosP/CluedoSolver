@@ -6,6 +6,9 @@ import main.cards.SuspectCard
 import main.cards.WeaponCard
 import main.envelope.Envelope
 import main.players.Player
+import main.actions.Suggestion
+import main.actions.Action
+import main.actions.NoCardShown
 
 object Game {
   def Empty = new Game(players = List(), envelope = Envelope.Empty)
@@ -51,5 +54,9 @@ class Game(var players: List[Player], var envelope: Envelope) {
                  
     players = dealCardsToPlayers(players, remainingCards)
     players = players.map { player => player.withAllCardsDealt }
+  }
+  
+  def performAction(player: Player, action: Action) = {
+    ???
   }
 }

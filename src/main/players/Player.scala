@@ -5,6 +5,7 @@ import main.cards.SuspectCard
 import main.cards.WeaponCard
 import main.cards.RoomCard
 import main.players.knowledge.Knowledge
+import main.actions.Suggestion
 
 object Player {
   val Empty = new Player(id = -1, cards = List(), knowledge = Knowledge.Empty)
@@ -31,5 +32,12 @@ class Player(val id: Int, val cards: List[Card], val knowledge: Knowledge) {
   def knowsItsCards = {
     val ownKnowledge = knowledge.players(id)
     ownKnowledge.numCards == cards.size && ownKnowledge.possibleCards.size == 0
+  }
+  
+  def getOne(suggestion: Suggestion): Option[Card] = {
+    val suggestedCards = cards.filter { card => suggestion.cards.contains(card) }
+    
+    if(suggestedCards.size == 0) None
+    else Some(suggestedCards.head)  // always gets first card!
   }
 }
