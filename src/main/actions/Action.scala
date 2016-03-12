@@ -1,5 +1,3 @@
 package main.actions
 
-trait Action {
-  
-}
+trait Action

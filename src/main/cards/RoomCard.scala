@@ -1,18 +1,27 @@
 package main.cards
 
-trait RoomCard extends Card
+sealed trait RoomCard extends Card
 
 // classic cards
-object Kitchen extends RoomCard
-object Ballroom extends RoomCard
-object Conservatory extends RoomCard
-object DiningRoom extends RoomCard
-object BilliardRoom extends RoomCard
-object Library extends RoomCard
-object Lounge extends RoomCard
-object Hall extends RoomCard
-object Study extends RoomCard
+case object Kitchen extends RoomCard
+case object Ballroom extends RoomCard
+case object Conservatory extends RoomCard
+case object DiningRoom extends RoomCard
+case object BilliardRoom extends RoomCard
+case object Library extends RoomCard
+case object Lounge extends RoomCard
+case object Hall extends RoomCard
+case object Study extends RoomCard
 
 object RoomCard {
-  lazy val classic = List(Kitchen, Ballroom, Conservatory, DiningRoom, BilliardRoom, Library, Lounge, Hall, Study)
+  lazy val classic = List(
+    Kitchen,
+    Ballroom,
+    Conservatory,
+    DiningRoom,
+    BilliardRoom,
+    Library,
+    Lounge,
+    Hall,
+    Study)
 }

@@ -8,36 +8,34 @@ import main.players.knowledge.Knowledge
 import main.actions.Suggestion
 
 object Player {
-  val Empty = new Player(id = -1, cards = List(), knowledge = Knowledge.Empty)
+  val Empty = Player(id = -1, cards = List(), knowledge = Knowledge.Empty)
 }
 
-class Player(val id: Int, val cards: List[Card], val knowledge: Knowledge) {  
-  override def toString = s"Player[id=$id, cards=$cards, knowledge=$knowledge]"
+case class Player(id: Int, cards: List[Card], knowledge: Knowledge) {
   
   lazy val suspects = cards.filter { card => card.isInstanceOf[SuspectCard] }
   lazy val weapons  = cards.filter { card => card.isInstanceOf[WeaponCard] }
   lazy val rooms    = cards.filter { card => card.isInstanceOf[RoomCard] }
   
-  def withID(id: Int) = new Player(id = id, cards = cards, knowledge = knowledge)
+  def withID(id: Int): Player = this.copy(id = id)
   
-  def playsAgainst(numPlayersWithoutSelf: Int, possibleCards: List[Card]) =
-    new Player(id = id, cards = cards, knowledge = knowledge.initialize(numPlayersWithoutSelf + 1, possibleCards))
+  def playsAgainst(numPlayersWithoutSelf: Int, possibleCards: List[Card]): Player =
+    this.copy(knowledge = knowledge.initialize(numPlayersWithoutSelf + 1, possibleCards))
   
-  def dealCard(card: Card) =
-    new Player(id = id, cards = card :: cards, knowledge.playerHasCard(this, card))
+  def dealCard(card: Card): Player =
+    this.copy(cards = card +: cards, knowledge = knowledge.playerHasCard(this, card))
   
-  def withAllCardsDealt =
-    new Player(id = id, cards = cards, knowledge.withAllCardsDealtForPlayer(this))
+  def withAllCardsDealt: Player =
+    this.copy(knowledge = knowledge.withAllCardsDealtForPlayer(this))
   
-  def knowsItsCards = {
+  def knowsItsCards: Boolean = {
     val ownKnowledge = knowledge.players(id)
-    ownKnowledge.numCards == cards.size && ownKnowledge.possibleCards.size == 0
+    ownKnowledge.numCards == cards.size && ownKnowledge.possibleCards.isEmpty
   }
   
   def getOne(suggestion: Suggestion): Option[Card] = {
     val suggestedCards = cards.filter { card => suggestion.cards.contains(card) }
     
-    if(suggestedCards.size == 0) None
-    else Some(suggestedCards.head)  // always gets first card!
+    suggestedCards.headOption // always gets first card!
   }
 }

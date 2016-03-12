@@ -1,12 +1,12 @@
 package test.envelope
 
-import org.scalatest.FlatSpec
+import org.scalatest.{Matchers, FlatSpec}
 import main.envelope.Envelope
 
-class EnvelopeSpec extends FlatSpec {
+class EnvelopeSpec extends FlatSpec with Matchers{
   behavior of "An Envelope"
   
   it should "have no cards when empty" in {
-    assert(Envelope.Empty.cards.size == 0)
+    Envelope.Empty.cards.isEmpty shouldEqual true
   }
 }

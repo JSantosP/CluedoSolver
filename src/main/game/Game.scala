@@ -20,9 +20,9 @@ class Game(var players: List[Player], var envelope: Envelope) {
   val numPlayers = 4
   
   lazy val cards = Card.classic
-  lazy val suspects = cards.filter { card => card.isInstanceOf[SuspectCard] }
-  lazy val weapons  = cards.filter { card => card.isInstanceOf[WeaponCard] }
-  lazy val rooms    = cards.filter { card => card.isInstanceOf[RoomCard] }
+  lazy val suspects: List[SuspectCard] = cards.collect { case suspect: SuspectCard => suspect }
+  lazy val weapons: List[WeaponCard]  = cards.collect { case weapon: WeaponCard => weapon }
+  lazy val rooms: List[RoomCard]    = cards.collect { case room: RoomCard => room }
   
   def initialize = {
     players = List.tabulate(numPlayers)(id => Player.Empty.withID(id).playsAgainst(numPlayers - 1, cards))
@@ -45,15 +45,16 @@ class Game(var players: List[Player], var envelope: Envelope) {
     val suspectSolution :: remainingSuspects = util.Random.shuffle(suspects)
     val weaponSolution  :: remainingWeapons  = util.Random.shuffle(weapons)
     val roomSolution    :: remainingRooms    = util.Random.shuffle(rooms)
-    val remainingCards = util.Random.shuffle(remainingSuspects ++ remainingWeapons ++ remainingRooms)
+    val remainingCards =
+      util.Random.shuffle(remainingSuspects ++ remainingWeapons ++ remainingRooms)
     
     envelope = dealSolution(envelope,
-                            suspectSolution.asInstanceOf[SuspectCard],
-                            weaponSolution.asInstanceOf[WeaponCard],
-                            roomSolution.asInstanceOf[RoomCard])
+                            suspectSolution,
+                            weaponSolution,
+                            roomSolution)
                  
     players = dealCardsToPlayers(players, remainingCards)
-    players = players.map { player => player.withAllCardsDealt }
+    players = players.map(_.withAllCardsDealt)
   }
   
   def performAction(player: Player, action: Action) = {

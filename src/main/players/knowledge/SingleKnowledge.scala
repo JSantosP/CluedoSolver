@@ -3,21 +3,26 @@ package main.players.knowledge
 import main.cards.Card
 
 object SingleKnowledge {
-  lazy val Empty = new SingleKnowledge(numCards = 0, cards = List(), possibleCards = List())
+  lazy val Empty = SingleKnowledge(numCards = 0, cards = List(), possibleCards = List())
 }
 
-class SingleKnowledge(val numCards: Int, val cards: List[Card], val possibleCards: List[Card]) {
-  override def toString = s"SinglePlayerKnowledge=[numCards=$numCards, cards=$cards, possibleCards=$possibleCards]"
+case class SingleKnowledge(numCards: Int, cards: List[Card], possibleCards: List[Card]) {
   
-  def couldHave(p: List[Card]) = {
+  def couldHave(p: List[Card]): SingleKnowledge = {
     require(p.forall { card => !cards.contains(card) }, "A possible card is already a known card!")
     
-    new SingleKnowledge(numCards = numCards, cards = cards, possibleCards = p)
+    this.copy(possibleCards = p)
   }
   
-  def has(card: Card) = new SingleKnowledge(numCards = numCards + 1, cards = card :: cards, possibleCards.filterNot { c => c == card })
+  def has(card: Card): SingleKnowledge =
+    SingleKnowledge(
+      numCards = numCards + 1,
+      cards = card +: cards,
+      possibleCards.filterNot(_ == card))
   
-  def doesntHave(card: Card) = new SingleKnowledge(numCards = numCards, cards = cards, possibleCards.filterNot { c => c == card })
+  def doesntHave(card: Card): SingleKnowledge =
+    this.copy(possibleCards = possibleCards.filterNot { c => c == card })
   
-  def withAllCardsKnown = new SingleKnowledge(numCards = numCards, cards = cards, possibleCards = Nil)
+  def withAllCardsKnown: SingleKnowledge =
+    this.copy(possibleCards = Nil)
 }

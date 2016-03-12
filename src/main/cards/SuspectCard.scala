@@ -1,15 +1,21 @@
 package main.cards
 
-trait SuspectCard extends Card
+sealed trait SuspectCard extends Card
 
 // classic cards
-object MissScarlet extends SuspectCard
-object ProfessorPlum extends SuspectCard
-object MrsPeacock extends SuspectCard
-object ReverendGreen extends SuspectCard
-object ColonelMustard extends SuspectCard
-object MrsWhite extends SuspectCard
+case object MissScarlet extends SuspectCard
+case object ProfessorPlum extends SuspectCard
+case object MrsPeacock extends SuspectCard
+case object ReverendGreen extends SuspectCard
+case object ColonelMustard extends SuspectCard
+case object MrsWhite extends SuspectCard
 
 object SuspectCard {
-  lazy val classic = List(MissScarlet, ProfessorPlum, MrsPeacock, ReverendGreen, ColonelMustard, MrsWhite)
+  lazy val classic = List(
+    MissScarlet,
+    ProfessorPlum,
+    MrsPeacock,
+    ReverendGreen,
+    ColonelMustard,
+    MrsWhite)
 }

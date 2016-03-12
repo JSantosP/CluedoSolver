@@ -1,14 +1,14 @@
 package main.cards
 
-trait WeaponCard extends Card
+sealed trait WeaponCard extends Card
 
 // classic cards
-object Candlestick extends WeaponCard
-object Dagger extends WeaponCard
-object LeadPipe extends WeaponCard
-object Revolver extends WeaponCard
-object Rope extends WeaponCard
-object Spanner extends WeaponCard
+case object Candlestick extends WeaponCard
+case object Dagger extends WeaponCard
+case object LeadPipe extends WeaponCard
+case object Revolver extends WeaponCard
+case object Rope extends WeaponCard
+case object Spanner extends WeaponCard
 
 object WeaponCard {
   lazy val classic = List(Candlestick, Dagger, LeadPipe, Revolver, Rope, Spanner)

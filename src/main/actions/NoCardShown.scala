@@ -1,5 +1,3 @@
 package main.actions
 
-object NoCardShown extends Action {
-  
-}
+case object NoCardShown extends Action
